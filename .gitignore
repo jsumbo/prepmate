@@ -1,0 +1,26 @@
+# Ignore Python cache and virtual environment
+__pycache__/
+venv/
+
+# Ignore model files and checkpoints
+models/
+*.pt
+*.safetensors
+
+# Ignore dataset cache
+*.jsonl
+*.csv
+
+# Ignore wandb logs
+wandb/
+
+# Ignore Streamlit and Jupyter artifacts
+*.streamlit/
+.ipynb_checkpoints/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+
+instruction.md 

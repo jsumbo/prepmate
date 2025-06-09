@@ -1,71 +1,157 @@
+import torch
+from transformers import GPT2Tokenizer, GPT2LMHeadModel, GPT2Config
+from transformers import Trainer, TrainingArguments
+from datasets import Dataset
 import json
+import numpy as np
+from sklearn.model_selection import train_test_split
+import wandb
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+import logging
 import os
-from datasets import load_dataset, Dataset
-from transformers import GPT2Tokenizer, GPT2LMHeadModel, Trainer, TrainingArguments, DataCollatorForLanguageModeling
 
-# Paths
-DATA_PATH = "./data/waec_qa_dataset.jsonl"
-MODEL_OUTPUT_DIR = "./models/prepmate_gpt2"
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Load dataset from JSONL file
-def load_qa_dataset(path):
-    data = []
-    with open(path, 'r') as f:
-        for line in f:
-            item = json.loads(line)
-            # Format input as Q + A + explanation
-            text = f"Subject: {item['subject']}\nQuestion: {item['question']}\nAnswer: {item['answer']}\nExplanation: {item['explanation']}\n"
-            data.append({"text": text})
-    return Dataset.from_list(data)
+class GPT2FineTuner:
+    def __init__(self, model_name="gpt2", dataset_path="./data/waec_qa_dataset.jsonl"):
+        self.model_name = model_name
+        self.dataset_path = dataset_path
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        # Set padding token
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        # Add padding token to model's vocabulary
+        self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        
+    def load_and_preprocess_data(self):
+        """Load and preprocess the dataset."""
+        logger.info("Loading dataset...")
+        data = []
+        with open(self.dataset_path, 'r') as f:
+            for line in f:
+                data.append(json.loads(line))
+        
+        # Prepare training data
+        train_data = []
+        for item in data:
+            # Format: "Question: {question}\nAnswer: {answer}"
+            text = f"Question: {item['question']}\nAnswer: {item['answer']}"
+            train_data.append({"text": text})
+        
+        # Split into train and validation sets
+        train_data, val_data = train_test_split(train_data, test_size=0.1, random_state=42)
+        
+        # Convert to HuggingFace datasets
+        train_dataset = Dataset.from_list(train_data)
+        val_dataset = Dataset.from_list(val_data)
+        
+        return train_dataset, val_dataset
+    
+    def tokenize_function(self, examples):
+        """Tokenize the examples."""
+        return self.tokenizer(
+            examples["text"],
+            padding="max_length",
+            truncation=True,
+            max_length=512,
+            return_tensors="pt"
+        )
+    
+    def compute_metrics(self, eval_preds):
+        """Compute BLEU score and perplexity."""
+        predictions, labels = eval_preds
+        predictions = np.argmax(predictions, axis=-1)
+        
+        # Calculate BLEU score
+        bleu_scores = []
+        smoothie = SmoothingFunction().method1
+        
+        for pred, label in zip(predictions, labels):
+            pred_text = self.tokenizer.decode(pred, skip_special_tokens=True)
+            label_text = self.tokenizer.decode(label, skip_special_tokens=True)
+            bleu_scores.append(sentence_bleu([label_text.split()], pred_text.split(), smoothing_function=smoothie))
+        
+        # Calculate perplexity
+        loss = torch.nn.CrossEntropyLoss()(torch.tensor(predictions), torch.tensor(labels))
+        perplexity = torch.exp(loss).item()
+        
+        return {
+            "bleu_score": np.mean(bleu_scores),
+            "perplexity": perplexity
+        }
+    
+    def train(self, hyperparameters):
+        """Train the model with given hyperparameters."""
+        logger.info("Starting training...")
+        
+        # Initialize wandb for experiment tracking
+        wandb.init(project="prepmate-gpt2", config=hyperparameters)
+        
+        # Load and preprocess data
+        train_dataset, val_dataset = self.load_and_preprocess_data()
+        
+        # Tokenize datasets
+        tokenized_train = train_dataset.map(self.tokenize_function, batched=True)
+        tokenized_val = val_dataset.map(self.tokenize_function, batched=True)
+        
+        # Initialize model
+        model = GPT2LMHeadModel.from_pretrained(self.model_name)
+        # Resize token embeddings to account for new padding token
+        model.resize_token_embeddings(len(self.tokenizer))
+        
+        # Training arguments
+        training_args = TrainingArguments(
+            output_dir="./results",
+            num_train_epochs=hyperparameters["epochs"],
+            per_device_train_batch_size=hyperparameters["batch_size"],
+            per_device_eval_batch_size=hyperparameters["batch_size"],
+            warmup_steps=500,
+            weight_decay=hyperparameters["weight_decay"],
+            logging_dir="./logs",
+            logging_steps=100,
+            save_steps=500,
+            learning_rate=hyperparameters["learning_rate"],
+            report_to="wandb"
+        )
+        
+        # Initialize trainer
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=tokenized_train,
+            eval_dataset=tokenized_val,
+            compute_metrics=self.compute_metrics
+        )
+        
+        # Train the model
+        trainer.train()
+        
+        # Save the model
+        model_save_path = f"./models/gpt2-finetuned-{wandb.run.id}"
+        trainer.save_model(model_save_path)
+        self.tokenizer.save_pretrained(model_save_path)
+        
+        # Log final metrics
+        final_metrics = trainer.evaluate()
+        wandb.log(final_metrics)
+        
+        return final_metrics
 
 def main():
-    # Load dataset
-    dataset = load_qa_dataset(DATA_PATH)
-
-    # Initialize tokenizer and model
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-    tokenizer.pad_token = tokenizer.eos_token  # GPT2 has no pad token, so set eos as pad
-
-    def tokenize_function(examples):
-        return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=256)
-
-    tokenized_datasets = dataset.map(tokenize_function, batched=True, remove_columns=["text"])
-
-    # Initialize model
-    model = GPT2LMHeadModel.from_pretrained("gpt2")
-
-    # Data collator for language modeling
-    data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
-
-    # Training arguments
-    training_args = TrainingArguments(
-        output_dir=MODEL_OUTPUT_DIR,
-        overwrite_output_dir=True,
-        num_train_epochs=3,
-        per_device_train_batch_size=2,
-        save_steps=500,
-        save_total_limit=2,
-        prediction_loss_only=True,
-        logging_dir="./logs",
-        logging_steps=100,
-        learning_rate=5e-5,
-        weight_decay=0.01,
-    )
-
-    # Trainer
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=tokenized_datasets,
-        data_collator=data_collator,
-    )
-
-    # Train model
-    trainer.train()
-
-    # Save model
-    trainer.save_model(MODEL_OUTPUT_DIR)
-    tokenizer.save_pretrained(MODEL_OUTPUT_DIR)
+    # Define hyperparameter search space
+    hyperparameters = {
+        "learning_rate": 5e-5,
+        "batch_size": 4,
+        "epochs": 3,
+        "weight_decay": 0.01
+    }
+    
+    # Initialize and train
+    trainer = GPT2FineTuner()
+    metrics = trainer.train(hyperparameters)
+    
+    logger.info(f"Training completed. Final metrics: {metrics}")
 
 if __name__ == "__main__":
     main()

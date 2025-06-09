@@ -44,3 +44,23 @@
 {"subject": "Government", "question": "What is separation of powers?", "answer": "Division of government into three branches", "explanation": "Separation of powers divides government into executive, legislative, and judicial branches to prevent concentration of power."}
 {"subject": "Literature", "question": "What is a simile?", "answer": "Comparison using 'like' or 'as'", "explanation": "A simile is a figure of speech that directly compares two different things using 'like' or 'as'."}
 {"subject": "Literature", "question": "What is the theme of a story?", "answer": "Central message or meaning", "explanation": "The theme is the underlying message or meaning that the author wants to convey to the reader."}
+{"subject": "Mathematics", "question": "Simplify: (3x - 2) + (4x + 5)", "answer": "7x + 3", "explanation": "Add like terms: 3x + 4x = 7x, -2 + 5 = 3."}
+{"subject": "Mathematics", "question": "Find the LCM of 4 and 6.", "answer": "12", "explanation": "Multiples of 4: 4, 8, 12... Multiples of 6: 6, 12... LCM is 12."}
+{"subject": "Mathematics", "question": "Convert 0.75 to a fraction.", "answer": "3/4", "explanation": "0.75 = 75/100 = 3/4 after simplification."}
+{"subject": "Mathematics", "question": "Find the square root of 144.", "answer": "12", "explanation": "12 × 12 = 144."}
+{"subject": "English Language", "question": "Choose the correct spelling: accomodation or accommodation?", "answer": "accommodation", "explanation": "The correct spelling is 'accommodation' with two 'c's and two 'm's."}
+{"subject": "English Language", "question": "What is the antonym of 'generous'?", "answer": "Stingy", "explanation": "'Stingy' means unwilling to give or spend; opposite of generous."}
+{"subject": "English Language", "question": "Identify the tense: 'He had finished his homework before dinner.'", "answer": "Past perfect", "explanation": "The action was completed before another in the past, hence past perfect."}
+{"subject": "English Language", "question": "Identify the subject in the sentence: 'The boy kicked the ball.'", "answer": "The boy", "explanation": "The subject is the doer of the action; in this case, 'The boy'."}
+{"subject": "Integrated Science", "question": "State one use of friction.", "answer": "Helps in walking", "explanation": "Friction provides grip between the foot and the ground."}
+{"subject": "Integrated Science", "question": "What are renewable resources?", "answer": "Resources that can be replaced naturally", "explanation": "Examples include solar energy and wind."}
+{"subject": "Integrated Science", "question": "What instrument is used to measure temperature?", "answer": "Thermometer", "explanation": "A thermometer is used to measure temperature."}
+{"subject": "Integrated Science", "question": "What is the boiling point of water in Celsius?", "answer": "100°C", "explanation": "Water boils at 100°C at standard atmospheric pressure."}
+{"subject": "Social Studies", "question": "What is culture?", "answer": "The way of life of a people", "explanation": "Culture includes language, food, music, religion, etc."}
+{"subject": "Social Studies", "question": "What is the main duty of the police?", "answer": "Maintain law and order", "explanation": "The police ensure peace and enforce laws."}
+{"subject": "Social Studies", "question": "What is migration?", "answer": "Movement from one place to another", "explanation": "Migration can be internal or external."}
+{"subject": "Social Studies", "question": "Mention one cause of conflict.", "answer": "Misunderstanding", "explanation": "Conflict may arise from disagreement or misunderstanding."}
+{"subject": "Chemistry", "question": "Name one noble gas.", "answer": "Helium", "explanation": "Helium is a noble gas and is chemically inert."}
+{"subject": "Chemistry", "question": "State one use of oxygen.", "answer": "Supports combustion", "explanation": "Oxygen is needed for substances to burn."}
+{"subject": "Chemistry", "question": "Name the acid found in the stomach.", "answer": "Hydrochloric acid", "explanation": "It aids digestion by breaking down food."}
+{"subject": "Chemistry", "question": "What is an atom?", "answer": "Smallest unit of an element", "explanation": "Atoms make up all matter and retain the properties of an element."}

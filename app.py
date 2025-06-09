@@ -6,7 +6,7 @@ import numpy as np
 from collections import Counter
 import math
 
-MODEL_DIR = "./models/prepmate_gpt2"
+MODEL_DIR = "gpt2"  # Using the base GPT-2 model from Hugging Face
 DATASET_PATH = "./data/waec_qa_dataset.jsonl"
 
 def load_dataset():
@@ -17,10 +17,17 @@ def load_dataset():
             questions.append(data['question'])
     return questions
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model():
     tokenizer = GPT2Tokenizer.from_pretrained(MODEL_DIR)
+    # Set padding token
+    tokenizer.pad_token = tokenizer.eos_token
+    # Add padding token to model's vocabulary
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    
     model = GPT2LMHeadModel.from_pretrained(MODEL_DIR)
+    # Resize token embeddings to account for new padding token
+    model.resize_token_embeddings(len(tokenizer))
     model.eval()
     return tokenizer, model
 
@@ -52,31 +59,45 @@ def find_similar_questions(user_question, dataset_questions, threshold=0.3):
     return sorted(similar_questions, key=lambda x: x[1], reverse=True)
 
 def generate_response(tokenizer, model, prompt, max_length=150):
-    inputs = tokenizer.encode(prompt, return_tensors="pt")
-    outputs = model.generate(
-        inputs, 
-        max_length=max_length, 
-        pad_token_id=tokenizer.eos_token_id,
-        do_sample=True, 
-        top_k=50, 
-        top_p=0.95, 
-        temperature=0.8,
-        return_dict_in_generate=True,
-        output_scores=True
-    )
-    
-    # Calculate confidence score based on token probabilities
-    token_probs = torch.softmax(outputs.scores[0], dim=-1)
-    confidence = float(torch.mean(token_probs.max(dim=-1)[0]))
-    
-    text = tokenizer.decode(outputs.sequences[0], skip_special_tokens=True)
-    response = text[len(prompt):].strip()
-    
-    return response, confidence
+    try:
+        # Encode the input with attention mask
+        inputs = tokenizer(
+            prompt,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=512
+        )
+        
+        # Generate response with proper attention mask
+        outputs = model.generate(
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs["attention_mask"],
+            max_length=max_length,
+            pad_token_id=tokenizer.eos_token_id,
+            do_sample=True,
+            top_k=50,
+            top_p=0.95,
+            temperature=0.8,
+            return_dict_in_generate=True,
+            output_scores=True
+        )
+        
+        # Calculate confidence score based on token probabilities
+        token_probs = torch.softmax(outputs.scores[0], dim=-1)
+        confidence = float(torch.mean(token_probs.max(dim=-1)[0]))
+        
+        text = tokenizer.decode(outputs.sequences[0], skip_special_tokens=True)
+        response = text[len(prompt):].strip()
+        
+        return response, confidence
+    except Exception as e:
+        st.error(f"Error generating response: {str(e)}")
+        return "I apologize, but I encountered an error while generating the response. Please try again.", 0.0
 
 def main():
-    st.title("PrepMate: WAEC Exam Preparation Assistant")
-    st.write("Ask any WAEC exam question related to Mathematics, English, Science, Social Studies, Chemistry, Biology, or Economics.")
+    st.title("PrepMate: WASSCE Exam Preparation Assistant")
+    st.write("Ace your WASSCE prep — ask questions in Math, English, Science, or more, and get answers with easy-to-understand explanations.")
 
     # Load model and dataset
     tokenizer, model = load_model()

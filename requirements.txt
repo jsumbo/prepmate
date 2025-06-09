@@ -1,5 +1,9 @@
-streamlit
-torch
-transformers
-numpy
-datasets
+torch>=2.0.0
+transformers>=4.30.0
+streamlit>=1.22.0
+numpy>=1.24.0
+nltk>=3.8.1
+scikit-learn
+datasets>=2.12.0
+wandb>=0.15.0
+tqdm>=4.65.0
