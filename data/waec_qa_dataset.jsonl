@@ -1,0 +1,46 @@
+{"subject": "Mathematics", "question": "Solve for x: 2x + 5 = 13", "answer": "x = 4", "explanation": "Subtract 5 from both sides: 2x = 8. Divide both sides by 2: x = 4."}
+{"subject": "Mathematics", "question": "Find the area of a triangle with base 5 cm and height 4 cm.", "answer": "10 cm\u00b2", "explanation": "Area = 0.5 \u00d7 base \u00d7 height = 0.5 \u00d7 5 \u00d7 4 = 10 cm\u00b2."}
+{"subject": "English Language", "question": "Identify the part of speech: 'She sings beautifully.'", "answer": "Adverb", "explanation": "'Beautifully' describes how she sings; it's an adverb."}
+{"subject": "English Language", "question": "What is the synonym of 'happy'?", "answer": "Joyful", "explanation": "'Joyful' means the same as 'happy'."}
+{"subject": "Integrated Science", "question": "What is the main function of the heart?", "answer": "Pumping blood", "explanation": "The heart pumps blood throughout the body."}
+{"subject": "Integrated Science", "question": "Name the process by which plants make their food.", "answer": "Photosynthesis", "explanation": "Photosynthesis is the process where plants use sunlight to make food."}
+{"subject": "Social Studies", "question": "Name one importance of the family in society.", "answer": "Teaches values", "explanation": "The family is a primary agent of socialization."}
+{"subject": "Social Studies", "question": "What is democracy?", "answer": "Government by the people", "explanation": "Democracy allows people to choose their leaders."}
+{"subject": "Chemistry", "question": "What is the chemical symbol for water?", "answer": "H\u2082O", "explanation": "Water is composed of 2 hydrogen atoms and 1 oxygen atom."}
+{"subject": "Chemistry", "question": "What is the pH of a neutral substance?", "answer": "7", "explanation": "Neutral substances have a pH of 7."}
+{"subject": "Biology", "question": "What organ pumps blood?", "answer": "Heart", "explanation": "The heart is responsible for pumping blood."}
+{"subject": "Biology", "question": "What is the basic unit of life?", "answer": "Cell", "explanation": "All living things are made up of cells."}
+{"subject": "Economics", "question": "What is demand?", "answer": "Willingness and ability to buy goods", "explanation": "Demand is the desire backed by the ability to pay."}
+{"subject": "Economics", "question": "Define opportunity cost.", "answer": "Next best alternative forgone", "explanation": "Opportunity cost is the value of the next best choice."}
+{"subject": "Mathematics", "question": "Sample question 15 in Mathematics?", "answer": "Sample answer 15", "explanation": "This is the explanation for sample question 15."}
+{"subject": "English Language", "question": "Sample question 16 in English Language?", "answer": "Sample answer 16", "explanation": "This is the explanation for sample question 16."}
+{"subject": "Integrated Science", "question": "Sample question 17 in Integrated Science?", "answer": "Sample answer 17", "explanation": "This is the explanation for sample question 17."}
+{"subject": "Social Studies", "question": "Sample question 18 in Social Studies?", "answer": "Sample answer 18", "explanation": "This is the explanation for sample question 18."}
+{"subject": "Chemistry", "question": "Sample question 19 in Chemistry?", "answer": "Sample answer 19", "explanation": "This is the explanation for sample question 19."}
+{"subject": "Biology", "question": "Sample question 20 in Biology?", "answer": "Sample answer 20", "explanation": "This is the explanation for sample question 20."}
+{"subject": "Economics", "question": "Sample question 21 in Economics?", "answer": "Sample answer 21", "explanation": "This is the explanation for sample question 21."}
+{"subject": "Mathematics", "question": "Sample question 22 in Mathematics?", "answer": "Sample answer 22", "explanation": "This is the explanation for sample question 22."}
+{"subject": "English Language", "question": "Sample question 23 in English Language?", "answer": "Sample answer 23", "explanation": "This is the explanation for sample question 23."}
+{"subject": "Integrated Science", "question": "Sample question 24 in Integrated Science?", "answer": "Sample answer 24", "explanation": "This is the explanation for sample question 24."}
+{"subject": "Social Studies", "question": "Sample question 25 in Social Studies?", "answer": "Sample answer 25", "explanation": "This is the explanation for sample question 25."}
+{"subject": "Chemistry", "question": "Sample question 26 in Chemistry?", "answer": "Sample answer 26", "explanation": "This is the explanation for sample question 26."}
+{"subject": "Biology", "question": "Sample question 27 in Biology?", "answer": "Sample answer 27", "explanation": "This is the explanation for sample question 27."}
+{"subject": "Economics", "question": "Sample question 28 in Economics?", "answer": "Sample answer 28", "explanation": "This is the explanation for sample question 28."}
+{"subject": "Mathematics", "question": "Sample question 29 in Mathematics?", "answer": "Sample answer 29", "explanation": "This is the explanation for sample question 29."}
+{"subject": "English Language", "question": "Sample question 30 in English Language?", "answer": "Sample answer 30", "explanation": "This is the explanation for sample question 30."}
+{"subject": "Mathematics", "question": "If log\u2082(x) = 3, find the value of x.", "answer": "8", "explanation": "If log\u2082(x) = 3, then x = 2³ = 8."}
+{"subject": "Mathematics", "question": "Find the value of sin 30° + cos 60°", "answer": "1", "explanation": "sin 30° = 0.5 and cos 60° = 0.5. Therefore, 0.5 + 0.5 = 1."}
+{"subject": "English Language", "question": "Choose the word that best completes the sentence: 'The students were _____ to hear about the exam results.'", "answer": "anxious", "explanation": "'Anxious' is the correct word as it shows the students' state of worry about their results."}
+{"subject": "English Language", "question": "Identify the figure of speech: 'The wind whispered through the trees.'", "answer": "Personification", "explanation": "The wind is given human qualities (whispering), which is an example of personification."}
+{"subject": "Physics", "question": "What is the SI unit of electric current?", "answer": "Ampere (A)", "explanation": "The ampere is the SI unit of electric current, named after André-Marie Ampère."}
+{"subject": "Physics", "question": "Calculate the work done when a force of 10N moves an object through a distance of 5m.", "answer": "50 Joules", "explanation": "Work done = Force × Distance = 10N × 5m = 50 Joules."}
+{"subject": "Chemistry", "question": "What is the chemical formula for sulfuric acid?", "answer": "H\u2082SO\u2084", "explanation": "Sulfuric acid contains 2 hydrogen atoms, 1 sulfur atom, and 4 oxygen atoms."}
+{"subject": "Chemistry", "question": "What type of reaction is: 2H\u2082 + O\u2082 → 2H\u2082O?", "answer": "Combination/Synthesis", "explanation": "This is a combination reaction where two or more substances combine to form a single product."}
+{"subject": "Biology", "question": "What is the function of the mitochondria?", "answer": "Energy production", "explanation": "Mitochondria are the powerhouse of the cell, producing energy through cellular respiration."}
+{"subject": "Biology", "question": "Name the process by which plants lose water through their leaves.", "answer": "Transpiration", "explanation": "Transpiration is the process of water movement through plants and its evaporation from leaves."}
+{"subject": "Economics", "question": "What is inflation?", "answer": "General increase in prices", "explanation": "Inflation is the sustained increase in the general price level of goods and services in an economy."}
+{"subject": "Economics", "question": "What is the law of supply?", "answer": "Price and quantity supplied are directly related", "explanation": "The law of supply states that as price increases, quantity supplied increases, and vice versa."}
+{"subject": "Government", "question": "What is a constitution?", "answer": "Supreme law of a country", "explanation": "A constitution is the fundamental law that establishes the framework of government and defines citizens' rights."}
+{"subject": "Government", "question": "What is separation of powers?", "answer": "Division of government into three branches", "explanation": "Separation of powers divides government into executive, legislative, and judicial branches to prevent concentration of power."}
+{"subject": "Literature", "question": "What is a simile?", "answer": "Comparison using 'like' or 'as'", "explanation": "A simile is a figure of speech that directly compares two different things using 'like' or 'as'."}
+{"subject": "Literature", "question": "What is the theme of a story?", "answer": "Central message or meaning", "explanation": "The theme is the underlying message or meaning that the author wants to convey to the reader."}
