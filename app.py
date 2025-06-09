@@ -9,6 +9,14 @@ import math
 MODEL_DIR = "gpt2"  # Using the base GPT-2 model from Hugging Face
 DATASET_PATH = "./data/waec_qa_dataset.jsonl"
 
+EXAMPLE_QUESTIONS = [
+    "What is the chemical formula for water?",
+    "Solve for x: 2x + 3 = 7.",
+    "Who wrote the play 'Romeo and Juliet'?",
+    "Explain the process of photosynthesis.",
+    "What is the capital of Ghana?"
+]
+
 def load_dataset():
     questions = []
     with open(DATASET_PATH, 'r') as f:
@@ -96,7 +104,8 @@ def generate_response(tokenizer, model, prompt, max_length=150):
         return "I apologize, but I encountered an error while generating the response. Please try again.", 0.0
 
 def main():
-    st.title("PrepMate: WASSCE Exam Preparation Assistant")
+    st.set_page_config(page_title="PrepMate: WASSCE Exam Preparation Assistant", page_icon="📚")
+    st.title("📚 PrepMate: WASSCE Exam Preparation Assistant")
     st.write("Ace your WASSCE prep — ask questions in Math, English, Science, or more, and get answers with easy-to-understand explanations.")
 
     # Load model and dataset
@@ -110,40 +119,51 @@ def main():
             # Calculate similarity with dataset
             similarities = [calculate_similarity(user_input, q) for q in dataset_questions]
             similarity_score = max(similarities) if similarities else 0
-            
-            # Generate response
-            prompt = f"Question: {user_input}\nAnswer:"
-            with st.spinner("Generating answer..."):
-                answer, confidence = generate_response(tokenizer, model, prompt)
-            
-            # Display response with confidence indicators
-            st.markdown(f"**Answer:** {answer}")
-            
-            # Show confidence level
-            confidence_level = min(similarity_score, confidence)
-            if confidence_level < 0.3:
-                st.warning("⚠️ This question appears to be outside our trained domain. The answer may not be accurate.")
-                st.info("Consider rephrasing your question or asking about a different topic.")
-            elif confidence_level < 0.6:
-                st.info("ℹ️ Moderate confidence in this answer. Please verify the information.")
-            
-            # Show similar questions if available
             similar_questions = find_similar_questions(user_input, dataset_questions)
-            if similar_questions:
-                st.markdown("**Similar questions in our database:**")
-                for question, score in similar_questions[:3]:
-                    st.markdown(f"- {question} (Similarity: {score:.2f})")
-            
-            # Add feedback mechanism
-            st.markdown("---")
-            st.markdown("Was this answer helpful?")
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("👍 Yes"):
-                    st.success("Thank you for your feedback!")
-            with col2:
-                if st.button("👎 No"):
-                    st.error("We're sorry the answer wasn't helpful. We'll use your feedback to improve.")
+
+            # If similarity is too low, do not generate an answer
+            if similarity_score < 0.3:
+                st.warning("⚠️ This question appears to be outside our trained domain. The answer may not be accurate.")
+                st.info("This model is still undergoing training and will support more questions soon. Please try rephrasing your question or see the sample questions below.")
+                if similar_questions:
+                    st.markdown("**Sample questions in our database:**")
+                    for question, score in similar_questions[:3]:
+                        st.markdown(f"- {question} (Similarity: {score:.2f})")
+                else:
+                    st.markdown("**Example questions you can ask:**")
+                    for q in EXAMPLE_QUESTIONS:
+                        st.markdown(f"- {q}")
+            else:
+                # Generate response
+                prompt = f"Question: {user_input}\nAnswer:"
+                with st.spinner("Generating answer..."):
+                    answer, confidence = generate_response(tokenizer, model, prompt)
+                st.markdown(f"**Answer:** {answer}")
+                # Show confidence level with progress bar and badge
+                confidence_level = min(similarity_score, confidence)
+                st.markdown(f"**Confidence Score:**")
+                st.progress(confidence_level, text=f"{confidence_level*100:.1f}%")
+                if confidence_level >= 0.8:
+                    st.success("High confidence")
+                elif confidence_level >= 0.6:
+                    st.info("Moderate confidence")
+                else:
+                    st.warning("Low confidence")
+                # Show similar questions if available
+                if similar_questions:
+                    st.markdown("**Similar questions in our database:**")
+                    for question, score in similar_questions[:3]:
+                        st.markdown(f"- {question} (Similarity: {score:.2f})")
+                # Add feedback mechanism
+                st.markdown("---")
+                st.markdown("Was this answer helpful?")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("👍 Yes"):
+                        st.success("Thank you for your feedback!")
+                with col2:
+                    if st.button("👎 No"):
+                        st.error("We're sorry the answer wasn't helpful. We'll use your feedback to improve.")
         else:
             st.warning("Please enter a question.")
 
