@@ -9,7 +9,7 @@ import math
 MODEL_DIR = "gpt2"  # Using the base GPT-2 model from Hugging Face
 DATASET_PATH = "./data/waec_qa_dataset.jsonl"
 
-SIMILARITY_THRESHOLD = 0.7  # strict threshold for in-domain
+SIMILARITY_THRESHOLD = 0.8  # strict threshold for in-domain
 
 EXAMPLE_QUESTIONS = [
     "What is the chemical formula for water?",

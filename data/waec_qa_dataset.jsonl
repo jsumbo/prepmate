@@ -64,3 +64,31 @@
 {"subject": "Chemistry", "question": "State one use of oxygen.", "answer": "Supports combustion", "explanation": "Oxygen is needed for substances to burn."}
 {"subject": "Chemistry", "question": "Name the acid found in the stomach.", "answer": "Hydrochloric acid", "explanation": "It aids digestion by breaking down food."}
 {"subject": "Chemistry", "question": "What is an atom?", "answer": "Smallest unit of an element", "explanation": "Atoms make up all matter and retain the properties of an element."}
+{"subject": "Mathematics", "question": "What is 7 + 8?", "answer": "15", "explanation": "Adding 7 and 8 gives 15."}
+{"subject": "Mathematics", "question": "What is the square root of 81?", "answer": "9", "explanation": "9 multiplied by 9 equals 81."}
+{"subject": "Mathematics", "question": "What is 25% of 200?", "answer": "50", "explanation": "25% of 200 is 200 × 0.25 = 50."}
+{"subject": "Mathematics", "question": "What is 6 multiplied by 7?", "answer": "42", "explanation": "6 × 7 = 42."}
+{"subject": "Mathematics", "question": "What is the next prime number after 7?", "answer": "11", "explanation": "The prime numbers after 7 are 11, 13, etc. 9 is not prime."}
+{"subject": "Mathematics", "question": "What is the value of π", "answer": "3.14", "explanation": "Pi is approximately 3.14 when rounded to two decimal places."}
+{"subject": "Mathematics", "question": "What is the area of a rectangle with length 8 cm and width 5 cm?", "answer": "40 cm²", "explanation": "Area = length × width = 8 × 5 = 40 cm²."}
+{"subject": "English", "question": "What is the synonym of 'happy'?", "answer": "Joyful", "explanation": "'Joyful' means feeling, expressing, or causing great pleasure and happiness."}
+{"subject": "English", "question": "Identify the noun in this sentence: 'The dog barked loudly.'", "answer": "Dog", "explanation": "'Dog' is a noun as it is the name of an animal."}
+{"subject": "English", "question": "What is the plural form of 'child'?", "answer": "Children", "explanation": "'Children' is the irregular plural of 'child'."}
+{"subject": "English", "question": "Choose the correct verb: She _____ to school every day.", "answer": "goes", "explanation": "'Goes' is the correct third person singular form of 'go'."}
+{"subject": "English", "question": "What is the past tense of 'write'?", "answer": "Wrote", "explanation": "'Wrote' is the simple past tense of 'write'."}
+{"subject": "English", "question": "What is an antonym for 'strong'?", "answer": "Weak", "explanation": "An antonym is a word opposite in meaning. 'Weak' is the opposite of 'strong'."}
+{"subject": "English", "question": "What punctuation ends a question?", "answer": "Question mark", "explanation": "A question mark (?) ends a direct question."}
+{"subject": "English", "question": "What is a sentence?", "answer": "A group of words that expresses a complete thought", "explanation": "A sentence starts with a capital letter and ends with a full stop, question mark, or exclamation mark."}
+{"subject": "English", "question": "Which word is an adjective: 'The tall boy ran fast.'?", "answer": "Tall", "explanation": "'Tall' describes the noun 'boy', so it is an adjective."}
+{"subject": "English", "question": "What is the opposite of 'begin'?", "answer": "End", "explanation": "'End' is the antonym of 'begin'."}
+{"subject": "General Knowledge", "question": "What is the capital of Nigeria?", "answer": "Abuja", "explanation": "Abuja became the capital of Nigeria in 1991, replacing Lagos."}
+{"subject": "General Knowledge", "question": "Which planet is known as the Red Planet?", "answer": "Mars", "explanation": "Mars is called the Red Planet due to its reddish appearance."}
+{"subject": "General Knowledge", "question": "Who wrote 'Things Fall Apart'?", "answer": "Chinua Achebe", "explanation": "Chinua Achebe was a Nigerian author who wrote the novel in 1958."}
+{"subject": "General Knowledge", "question": "What currency is used in Ghana?", "answer": "Ghanaian Cedi", "explanation": "The official currency of Ghana is the Ghanaian Cedi (GHS)."}
+{"subject": "General Knowledge", "question": "What do plants use to make food?", "answer": "Sunlight", "explanation": "Through photosynthesis, plants convert sunlight into food."}
+{"subject": "General Knowledge", "question": "Who was the first president of Nigeria?", "answer": "Dr. Nnamdi Azikiwe", "explanation": "He became the first President of Nigeria in 1963."}
+{"subject": "General Knowledge", "question": "What is water made of?", "answer": "Hydrogen and Oxygen", "explanation": "Water is made of two hydrogen atoms and one oxygen atom (H₂O)."}
+{"subject": "General Knowledge", "question": "What is the function of the heart?", "answer": "To pump blood", "explanation": "The heart circulates blood throughout the body."}
+{"subject": "General Knowledge", "question": "Which continent is Nigeria in?", "answer": "Africa", "explanation": "Nigeria is a country located in West Africa."}
+{"subject": "General Knowledge", "question": "How many hours are in a day?", "answer": "24", "explanation": "One full day consists of 24 hours."}
+
