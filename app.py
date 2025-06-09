@@ -9,6 +9,8 @@ import math
 MODEL_DIR = "gpt2"  # Using the base GPT-2 model from Hugging Face
 DATASET_PATH = "./data/waec_qa_dataset.jsonl"
 
+SIMILARITY_THRESHOLD = 0.7  # strict threshold for in-domain
+
 EXAMPLE_QUESTIONS = [
     "What is the chemical formula for water?",
     "Solve for x: 2x + 3 = 7.",
@@ -118,34 +120,25 @@ def main():
         if user_input.strip():
             # Calculate similarity with dataset
             similarities = [calculate_similarity(user_input, q) for q in dataset_questions]
-            similarity_score = max(similarities) if similarities else 0
+            max_similarity = max(similarities) if similarities else 0
             similar_questions = find_similar_questions(user_input, dataset_questions)
 
-            # If similarity is too low, do not generate an answer
-            if similarity_score < 0.3:
-                st.warning("⚠️ This question appears to be outside our trained domain. The answer may not be accurate.")
-                st.info("This model is still undergoing training and will support more questions soon. Please try rephrasing your question or see the sample questions below.")
-                if similar_questions:
-                    st.markdown("**Sample questions in our database:**")
-                    for question, score in similar_questions[:3]:
-                        st.markdown(f"- {question} (Similarity: {score:.2f})")
-                else:
-                    st.markdown("**Example questions you can ask:**")
-                    for q in EXAMPLE_QUESTIONS:
-                        st.markdown(f"- {q}")
-            else:
+            # Strict check: only answer if a similar question is found
+            if max_similarity >= SIMILARITY_THRESHOLD:
+                # Find the most similar question
+                best_idx = similarities.index(max_similarity)
+                matched_question = dataset_questions[best_idx]
                 # Generate response
-                prompt = f"Question: {user_input}\nAnswer:"
+                prompt = f"Question: {matched_question}\nAnswer:"
                 with st.spinner("Generating answer..."):
                     answer, confidence = generate_response(tokenizer, model, prompt)
                 st.markdown(f"**Answer:** {answer}")
                 # Show confidence level with progress bar and badge
-                confidence_level = min(similarity_score, confidence)
                 st.markdown(f"**Confidence Score:**")
-                st.progress(confidence_level, text=f"{confidence_level*100:.1f}%")
-                if confidence_level >= 0.8:
+                st.progress(confidence, text=f"{confidence*100:.1f}%")
+                if confidence >= 0.8:
                     st.success("High confidence")
-                elif confidence_level >= 0.6:
+                elif confidence >= 0.6:
                     st.info("Moderate confidence")
                 else:
                     st.warning("Low confidence")
@@ -164,6 +157,17 @@ def main():
                 with col2:
                     if st.button("👎 No"):
                         st.error("We're sorry the answer wasn't helpful. We'll use your feedback to improve.")
+            else:
+                st.warning("❌ Sorry, I do not know the answer to this question as it is not in my training data.")
+                st.info("This model is still undergoing training and will support more questions soon. Please try rephrasing your question or see the sample questions below.")
+                if similar_questions:
+                    st.markdown("**Sample questions in our database:**")
+                    for question, score in similar_questions[:3]:
+                        st.markdown(f"- {question} (Similarity: {score:.2f})")
+                else:
+                    st.markdown("**Example questions you can ask:**")
+                    for q in EXAMPLE_QUESTIONS:
+                        st.markdown(f"- {q}")
         else:
             st.warning("Please enter a question.")
 
