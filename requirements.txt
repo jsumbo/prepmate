@@ -7,3 +7,5 @@ scikit-learn
 datasets>=2.12.0
 wandb>=0.15.0
 tqdm>=4.65.0
+openai
+python-dotenv

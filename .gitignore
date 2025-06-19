@@ -22,7 +22,7 @@ wandb/
 .DS_Store
 Thumbs.db
 
-
+.env
 instruction.md
 report.md 
 script.md  

@@ -70,10 +70,5 @@ prepmate/
 - BLEU score and perplexity (if fine-tuning locally)
 - Qualitative: User feedback, confidence scores, and similarity checks
 
-## Feedback & Contribution
-- Use the feedback buttons in the app
-- PRs and suggestions welcome!
 
-## License
-MIT License
 
