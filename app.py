@@ -5,9 +5,6 @@ import json
 import numpy as np
 from collections import Counter
 import math
-import openai
-from dotenv import load_dotenv
-import os
 
 MODEL_DIR = "gpt2"  # Using the base GPT-2 model from Hugging Face
 DATASET_PATH = "./data/waec_qa_dataset.jsonl"
@@ -21,10 +18,6 @@ EXAMPLE_QUESTIONS = [
     "Explain the process of photosynthesis.",
     "What is the capital of Ghana?"
 ]
-
-# Load environment variables
-load_dotenv()
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 def load_dataset():
     questions = []
@@ -112,30 +105,6 @@ def generate_response(tokenizer, model, prompt, max_length=150):
         st.error(f"Error generating response: {str(e)}")
         return "I apologize, but I encountered an error while generating the response. Please try again.", 0.0
 
-def get_chatgpt_response(prompt, model="gpt-3.5-turbo"):
-    try:
-        client = openai.OpenAI(api_key=OPENAI_API_KEY)
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=200,
-            temperature=0.7,
-            logprobs=True
-        )
-        answer = response.choices[0].message.content.strip()
-
-        confidence = 0.0
-        if response.choices[0].logprobs and response.choices[0].logprobs.content:
-            token_logprobs = [lp.logprob for lp in response.choices[0].logprobs.content]
-            if token_logprobs:
-                avg_logprob = sum(token_logprobs) / len(token_logprobs)
-                confidence = math.exp(avg_logprob)
-
-        return answer, confidence
-    except Exception as e:
-        st.error(f"Error communicating with OpenAI: {str(e)}")
-        return "I apologize, but I encountered an error while communicating with the external service. Please try again.", 0.0
-
 def main():
     st.set_page_config(page_title="PrepMate: WASSCE Exam Preparation Assistant", page_icon="📚")
     st.title("📚 PrepMate: WASSCE Exam Preparation Assistant")
@@ -154,7 +123,7 @@ def main():
             max_similarity = max(similarities) if similarities else 0
             similar_questions = find_similar_questions(user_input, dataset_questions)
 
-            # Strict check: only answer if a similar question is found
+            # Check if a similar question is found
             if max_similarity >= SIMILARITY_THRESHOLD:
                 # Find the most similar question
                 best_idx = similarities.index(max_similarity)
@@ -189,23 +158,11 @@ def main():
                     if st.button("👎 No"):
                         st.error("We're sorry the answer wasn't helpful. We'll use your feedback to improve.")
             else:
-                # If not in dataset, use ChatGPT
-                with st.spinner("Prepmate is thinking..."):
-                    chatgpt_answer, confidence = get_chatgpt_response(user_input)
-                st.markdown(f"**Answer:** {chatgpt_answer}")
+                # If not in dataset, show message and similar questions
+                st.warning("I couldn't find a similar question in our database. Please try rephrasing your question or ask one of the example questions below.")
                 
-                # Show confidence level with progress bar and badge
-                st.markdown(f"**Confidence Score:**")
-                st.progress(confidence, text=f"{confidence*100:.1f}%")
-                if confidence >= 0.8:
-                    st.success("High confidence")
-                elif confidence >= 0.6:
-                    st.info("Moderate confidence")
-                else:
-                    st.warning("Low confidence")
-
                 if similar_questions:
-                    st.markdown("**Sample questions in our database:**")
+                    st.markdown("**Similar questions in our database:**")
                     for question, score in similar_questions[:3]:
                         st.markdown(f"- {question} (Similarity: {score:.2f})")
                 else:

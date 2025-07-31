@@ -7,5 +7,3 @@ scikit-learn
 datasets
 wandb
 tqdm
-openai
-python-dotenv
